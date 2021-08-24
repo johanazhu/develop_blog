@@ -20,7 +20,10 @@ ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
 <h3 id="第三步：写文章"><a href="#第三步：写文章" class="headerlink" title="第三步：写文章"></a>第三步：写文章</h3><p>使用 markdown 编辑器写文章</p>
 <h3 id="第四步：清理缓存"><a href="#第四步：清理缓存" class="headerlink" title="第四步：清理缓存"></a>第四步：清理缓存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run clean <span class="comment"># 清理缓存</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="第五步：发布"><a href="#第五步：发布" class="headerlink" title="第五步：发布"></a>第五步：发布</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run deploy</span><br></pre></td></tr></table></figure>
+<h3 id="第五步：发布"><a href="#第五步：发布" class="headerlink" title="第五步：发布"></a>第五步：发布</h3><p>先 build 生成静态文件，再往上推</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run build</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run deploy</span><br></pre></td></tr></table></figure>
 </div><div class="tags"><a href="/tags/%E6%8A%80%E5%B7%A7/"><i class="fa fa-tag"></i>技巧</a><a href="/tags/%E5%86%99%E4%BD%9C/"><i class="fa fa-tag"></i>写作</a></div><div class="post-nav"><a class="pre" href="/2020/11/22/2020-11-22-%E5%B8%B8%E7%94%A8%E7%9A%84%20Git%20%E5%91%BD%E4%BB%A4/">常用的 Git 命令</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
