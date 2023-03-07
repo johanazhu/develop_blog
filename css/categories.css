@@ -1,0 +1,7 @@
+.widget-list-count::before {
+  content: "(";
+}
+
+.widget-list-count::after {
+  content: ")";
+}

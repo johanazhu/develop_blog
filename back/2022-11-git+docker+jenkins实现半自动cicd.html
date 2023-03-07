@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title>何时使用useMemo，useCallback，React.memo | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">何时使用useMemo，useCallback，React.memo</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title">何时使用useMemo，useCallback，React.memo</h1><div class="post-content"><p>docker-compose 笔记</p>
+<p>为什么要用，如果要打包镜像毕竟基于这个镜像做个容器，你需要多个步骤</p>
+<p>而用 docker-compose 则只用一步即可</p>
+<p>远程仓库：XXXX，公司自建</p>
+<p>docker之前一直有用，当初给同事 dockerfile，他帮忙完成 docker + jenkins 的结合，现在他离职了，前端自动化的事情就只能自己搞了</p>
+<p>我的思路：</p>
+<p>通过 jenkins 连接 服务器，拿到 git 上的 branch，手动点击 jenkins 时，jenkins 将服务器上的 docker 打包成 一个可访问的项目</p>
+<p>当我把代码部署上去后，通过 jenkins 部署，我们这边通过 branch来部署，例如现在要做个2022年11月18号的任务，以日期为分支名建立，然后点击部署时，jenkins 会按照配置文件去执行代码</p>
+<p>其中<code>Send files or execute commands over SSH</code>，登录服务器去执行，我们写一个操作 docker 部署 shell 命令，</p>
+<p>这里包括删除原应用，并打包现应用</p>
+<p>原来是在本地打包，并上传整个应用，但是每个人的应用环境不同，会出现打包歧义问题，做好放在服务器打包</p>
+<p>首先 先要基于 我自己的 johanbo/node 来弄一个node 环境</p>
+<p>两种方案，一种 nginx 做转发，基于 nginx 的 docker，另一种 基于 node 的</p>
+<p>有没有两种结合的呢</p>
+<p>那就是要用到 dockerfile 的语法，</p>
+<p>先基于 node，执行得到 dist 文件后，再基于 nginx，将根目录下的 dist、nginx.conf 拷贝到 nginx 执行文件下</p>
+<p>接下来就是 docker 命令的环节</p>
+<p>dockerfile:</p>
+<p>workdir : 指的是进入容器后的要进入那个工作文件夹</p>
+<p>如果你 wordkdir . ，指的就是根目录</p>
+<p>问题二：pnpm 构建失败：</p>
+<p><code> error - Your node version 17 is not supported, please upgrade to 14 or above except 15 or 17.</code></p>
+<p>还不能用最新版的 node，那只好降级到和本机相同版本的 node —— v16.17.0</p>
+<p>试试看：</p>
+<p>如果是 layout 的话，删除 dist，再把同目录下的 crm、admin 放进dist 中，</p>
+<p>如果是crm、admin 的话，删除 dist 文件，生成新的 dist 文件</p>
+<p>本地成功了，在服务器上是否可以</p>
+<p>`docker run </p>
+<p>现在的问题是，三个容器互补相通，如果想让A容器访问到B容器的连接周末做</p>
+<p>主应用容器对子应用容器的访问不了</p>
+<p>docker </p>
+<p>通过自定义网络实现主应用容器对子应用容器的访问</p>
+<p>如果容器互相依赖，你可以使用 <a href="">Docker 自定义网络</a> 来把这些容器连接起来</p>
+<p>link</p>
+<p>本地就跑通了，问题来了，有没有更好的方法，docker compose，将多个容器连接在一起</p>
+<p>阮一峰曾经出过一个教程：wordpress的教程，php+mysql</p>
+<p>php一个容器，mysql一个容器，php访问mysql容器</p>
+<p>所以我的主应用要想访问到子应用，可以采用 docker link 的形式访问，也可以通过 docker compose 编排这些</p>
+<p>创建网络</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> docker network create -d bridge my-network</span><br><span class="line">$ docker inspect my-network</span><br></pre></td></tr></table></figure>
+
+<p>查看网路</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network <span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+
+<p>删除网络：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network <span class="built_in">rm</span> my-net</span><br></pre></td></tr></table></figure>
+
+<p>查看网络配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect my-net</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们来创建网络</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 my-net2</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --net my-net2 --ip 192.168.1.1 --<span class="built_in">link</span> 192.168.1.2 --<span class="built_in">link</span> 192.168.1.3 --name layout jingxb_layout:v1.14</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net my-net2 --ip 192.168.1.2 --name crm jingxb_crm:v1.9</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net my-net2 --ip 192.168.1.3 --name admin jingxb_admin:v1.2</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose 访问其他容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up // 启动</span><br><span class="line">docker-compose down // 删除</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>经过一段时间的摸索：找到了「将 Docker 命令杭转换为 docker-compose 文件格式」的网站</p>
+<p>如何查看服务器开放的端口</p>
+<p><code>netstat -pan</code>    //查看当前所有端口</p>
+<p>·<code>netstat -nupl</code> (<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=UDP&spm=1001.2101.3001.7020">UDP</a>类型的端口)<br><code>netstat -ntpl</code>： TCP类型的端口 ⭐⭐⭐⭐⭐</p>
+<p>刷新之后，404了，但是我三个服务都配置了nginx 的 try_files 阿</p>
+<p>子应用单独服务打开，接口也不通</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6875462470593904653#heading-22">https://juejin.cn/post/6875462470593904653#heading-22</a></p>
+<p>大佬请教一下，部署到不同的服务器，主站配置和子应用 base和publicPath应该怎么配置呢？我这边部署后，刷新会变成子应用</p>
+<p>qiankun 子应用刷新基座没有</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wl-ui/wl-mfe">https://github.com/wl-ui/wl-mfe</a></p>
+<p>如何在主应用的某个路由页面加载微应用</p>
+<p>因为跳转的是路由，所以展示子应用的样式</p>
+<p>确保主应用的组件展示出来，并且子应用在其中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// name 和 activeRule 不能是一个  </span></span><br><span class="line"><span class="attr">qiankun</span>: &#123;</span><br><span class="line">    <span class="attr">master</span>: &#123;</span><br><span class="line">      <span class="attr">apps</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;crm1&#x27;</span>,</span><br><span class="line">          <span class="comment">// 微应用部署地址</span></span><br><span class="line">          <span class="attr">entry</span>: <span class="variable constant_">NODE_ENV</span> === <span class="string">&#x27;production&#x27;</span> ? <span class="string">&#x27;/crm1/&#x27;</span> : <span class="string">&#x27;http://localhost:8001&#x27;</span>,</span><br><span class="line">          <span class="comment">// entry: &#x27;/crm/&#x27;,</span></span><br><span class="line">          <span class="comment">// entry: &#x27;http://localhost:9003/crm/&#x27;,</span></span><br><span class="line">          <span class="comment">// container: &#x27;#crmMain&#x27;,</span></span><br><span class="line">          <span class="comment">// activeRule: &#x27;/crm1&#x27;,</span></span><br><span class="line">          <span class="attr">activeRule</span>: <span class="string">&#x27;/crm1&#x27;</span>,</span><br><span class="line">          <span class="comment">// activeRule: &#x27;/child-crm&#x27;,</span></span><br><span class="line">        &#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>404</p>
+<p>基于微前端qiankun的多页签缓存方案实践</p>
+<p><a target="_blank" rel="noopener" href="https://www.51cto.com/article/714992.html">https://www.51cto.com/article/714992.html</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6981339862901194759">微前端qiankun+docker+nginx配合gitlab-ci/cd的自动化部署的实现</a></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuanmanstein/p/10576476.html">https://www.cnblogs.com/xuanmanstein/p/10576476.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.composerize.com/?utm_source=appinn.com">https://www.composerize.com/?utm_source=appinn.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/umijs/qiankun/issues/928">https://github.com/umijs/qiankun/issues/928</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6973156414210441247">https://juejin.cn/post/6973156414210441247</a></p>
+</div></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>

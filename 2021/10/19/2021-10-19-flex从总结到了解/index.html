@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title>flex从总结到了解 | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">flex从总结到了解</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a class="current" href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title">flex从总结到了解</h1><div class="post-meta">2021-10-19<span> | </span><span class="category"><a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--><a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--></span><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span><span> | </span><span>作者：</span><span class="author">轻松学英语</span></div><div class="post-content"><p>flex 是一种布局方式，在 CSS3 之后开始有。它主要由父容器和子项组成，父容器有六个属性，分别为：</p>
+<ul>
+<li>控制主轴轴向：<code>flex-direction</code><ul>
+<li>row：横轴（默认）</li>
+<li>row-reverse：倒过来的横轴</li>
+<li>column：竖轴</li>
+<li>column-reverse：倒过来的竖轴</li>
+</ul>
+</li>
+<li>换行方式：<code>flex-wrap</code><ul>
+<li>nowrap：不换行（默认）</li>
+<li>wrap：换行</li>
+<li>wrap-reverse：反着换行</li>
+</ul>
+</li>
+<li>主轴排列：<code>justify-content</code></li>
+<li>交叉轴排列：<code>align-items</code></li>
+<li>轴向与换行组合设置：<code>flex-flow</code>（流向）<ul>
+<li>一般很少用这个属性，即改变子项的布局顺序，正着来，倒着来</li>
+</ul>
+</li>
+</ul>
+<p>子项也有六个属性，分别为：</p>
+<ul>
+<li>弹性扩展：<code>flex-grow</code><ul>
+<li>指定容器剩余空间多余时的分配规则</li>
+<li>默认值为 0，多余空间不分配</li>
+</ul>
+</li>
+<li>弹性收缩：<code>flex-shrink</code><ul>
+<li>指定容器剩余空间不足时的分配规则</li>
+<li>默认值为 1，空间不足要分配；如果为 0，表示不分配</li>
+</ul>
+</li>
+<li>基础尺寸：<code>flex-basis</code><ul>
+<li>指定 flex 元素在主轴方向上的初始大小（基础尺寸）</li>
+<li>默认值为 auto，即项目本身大小</li>
+</ul>
+</li>
+<li><strong>缩写：<code>flex</code></strong><ul>
+<li>flex-grow、flex-shrink、flex-basis 的缩写</li>
+<li>默认值为 0 1 auto</li>
+</ul>
+</li>
+<li>主轴顺序：<code>order</code></li>
+<li>交叉轴对齐方式：<code>align-self</code></li>
+</ul>
+<p>总的来说，<strong>父容器控制整体布局，子项控制子项布局</strong></p>
+<p>在面试中，常常不会问怎么宽泛，最常见的 flex 面试题为：</p>
+<ul>
+<li><code>flex: 0 1 auto</code> 怎么理解？</li>
+<li><code>flex: 1</code>具体代表什么，有什么应用场景</li>
+<li><code>flex: 0</code>、<code>flex: 1</code>、<code>flex: none</code>、<code>flex: auto</code>，表示什么意思，并应用在什么场景下使用？</li>
+</ul>
+<p>要想回答这些问题，我们必须了解子项中的 flex 属性</p>
+<h2 id="flex-语法"><a href="#flex-语法" class="headerlink" title="flex 语法"></a>flex 语法</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: none | auto | [&lt; <span class="string">&#x27;flex-grow&#x27;</span> &gt; &lt; <span class="string">&#x27;flex-shrink&#x27;</span> &gt;? || &lt; <span class="string">&#x27;flex-basis&#x27;</span> &gt; ];</span><br></pre></td></tr></table></figure>
+
+<p>单管道符 <code>|</code> ，表示排他。也就是这个符号前后的属性值都是支持的，且不能同时出现。因此，下面这些语法都是支持的：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: auto;</span><br><span class="line"><span class="attribute">flex</span>: none;</span><br><span class="line"></span><br><span class="line"><span class="attribute">flex</span>: [&lt; <span class="string">&#x27;flex-grow&#x27;</span> &gt; &lt; <span class="string">&#x27;flex-shrink&#x27;</span> &gt;? || &lt; <span class="string">&#x27;flex-basis&#x27;</span> &gt;];</span><br></pre></td></tr></table></figure>
+
+<p>方括号 <code>[...]</code> 表示范围。支持的属性在这个范围内</p>
+<p>其中 <code>?</code> ，表示 0 个或者 1 个，也就是说 <code>flex-shrink</code> 属性可有可无。因为 flex 属性值也可以是 2 个值</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: auto;</span><br><span class="line"><span class="attribute">flex</span>: none;</span><br><span class="line"><span class="comment">/* 2个值 */</span></span><br><span class="line"><span class="attribute">flex</span>: <span class="number">1</span> <span class="number">100px</span>;</span><br><span class="line"><span class="comment">/* 3个值 */</span></span><br><span class="line"><span class="attribute">flex</span>: <span class="number">1</span> <span class="number">1</span> <span class="number">100px</span>;</span><br></pre></td></tr></table></figure>
+
+<p>双管道 <code>||</code> ，表示”或者“的意思。表示前后可以分开独立使用，也就是 <code>flex: flex-grow flex-shrink?</code> 和 <code>flex-basis</code> 都是合法的。于是我们又多了 2 种合法的写法：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1个值，flex-basis */</span></span><br><span class="line"><span class="attribute">flex</span>: <span class="number">100px</span>;</span><br><span class="line"><span class="comment">/* 2个值，flex-grow 和 flex-shrink */</span></span><br><span class="line"><span class="attribute">flex</span>: <span class="number">1</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="转为文字表述"><a href="#转为文字表述" class="headerlink" title="转为文字表述"></a>转为文字表述</h3><p>单值语法：</p>
+<p> 如果 flex 的属性值只有一个值，有三种情况</p>
+<ul>
+<li><p>一个无单位数，例如例如 <code>flex: 1</code>，表示 <code>flex-shrink: 1</code>，剩余空间扩展。此时，<code>flex-shrink</code> 和 <code>flex-basis</code> 的值分别是 1 和 0%。注意，这里的 <code>flex-basis</code> 的值是 0%，而不是默认值 <code>auto</code></p>
+<ul>
+<li>只要改变 <code>flex: 数字</code>，<code>flex-basis</code> 的值就为 0</li>
+</ul>
+</li>
+<li><p>一个有效的宽度（width）值，表现形式为长度值，例如 <code>flex: 100px</code>，表示<code>flex-basis: 100px</code>，基础尺寸为 100px。此时，<code>flex-grow</code> 和 <code>flex-shrink</code> 的值都是 1，注意，这里的 <code>flex-grow</code> 的值是 1，而不是默认值 0</p>
+</li>
+<li><p>关键字 <code>none</code>，<code>auto</code> 或 <code>initial</code></p>
+</li>
+</ul>
+<p>双值语法：</p>
+<p> 如果 flex 的属性值有两个值，则第 1 个值一定是 <code>flex-grow</code>，第 2 个根据值的类型不同表示不同的 CSS 属性，具体规则如下：</p>
+<ul>
+<li>数值：例如<code>flex: 1 2</code>，则这个 2 表示 <code>flex-shrink</code>，此时 <code>flex-basis</code> 的值为 0%，而非默认值 auto</li>
+<li>长度值，例如<code>flex: 1 100px</code>，则这个 <code>100px</code> 值 <code>flex-basis</code>，此时 <code>flex-shrink</code> 默认值为 0</li>
+</ul>
+<p>三值语法：</p>
+<p> 如果 flex 的属性值有 3 个值，则长度值表示 <code>flex-basis</code>，其余 2 个数值分别表示<code>flex-grow</code> 和 <code>flex-shrink</code>。下面两行 CSS 语句的语法都是合法的，且含义也是一样的：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: <span class="number">1</span> <span class="number">2</span> <span class="number">50%</span>;</span><br><span class="line"><span class="attribute">flex</span>: <span class="number">50%</span> <span class="number">1</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="flex-属性值场景应用"><a href="#flex-属性值场景应用" class="headerlink" title="flex 属性值场景应用"></a>flex 属性值场景应用</h2><p>flex 默认值为 0 1 auto。除此之外，还有各种其他值</p>
+<ul>
+<li><p>flex: none，等同于 flex: 0 0 auto;</p>
+</li>
+<li><p>flex: auto，等同于 flex: 1 1 auto;</p>
+</li>
+<li><p>flex: 1，等同于 flex: 1 1 0%;</p>
+</li>
+<li><p>flex: 0，等同于 flex 0 1 0%;</p>
+</li>
+</ul>
+<p>张鑫旭大神画过一张图：</p>
+<table>
+<thead>
+<tr>
+<th>单值语法</th>
+<th>等同于</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flex: initial</td>
+<td>flex: 0 1 auto</td>
+<td>初始值，常用</td>
+</tr>
+<tr>
+<td>flex: 0</td>
+<td>flex: 0 1 0%</td>
+<td>适用场景少</td>
+</tr>
+<tr>
+<td>flex: none</td>
+<td>flex: 0 0 auto</td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>flex: 1</td>
+<td>flex: 1 1 0%</td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>flex: auto</td>
+<td>flex: 1 1 auto</td>
+<td>适用场景少</td>
+</tr>
+</tbody></table>
+<h3 id="默认值-flex-initial"><a href="#默认值-flex-initial" class="headerlink" title="默认值 flex: initial"></a>默认值 flex: initial</h3><p>它等同于 <code>flex:0 1 auto</code>，表示 flex 容器有剩余空间时尺寸不增长（<code>flex-grow</code>: 0），flex 容器尺寸不足时尺寸会收缩变小（<code>flex-shrink</code>:1），尺寸自适应于内容（<code>flex-basis</code>:auto）</p>
+<p>我的理解：子项总长度小于总容器时，不会去撑满（<code>flex-grow</code>:0），而按实际宽高度存在(<code>flex-basis</code>:auto)；当子项总长度大于总容器时，子项会相对于的收缩相对比例（<code>flex-shrink</code>:1）</p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>适用于子项总长度小于总容器的场景，例如按钮、标题、小图标等小部件的排版布局</p>
+<h3 id="flex-0-和-flex-none-的区别"><a href="#flex-0-和-flex-none-的区别" class="headerlink" title="flex: 0 和 flex: none 的区别"></a>flex: 0 和 flex: none 的区别</h3><p><code>flex: 0</code> 等同于设置 <code>flex: 0 1 0%</code>，<code>flex:none</code> 等同于 <code>flex: 0 0 auto</code></p>
+<p><code>flex: 0</code>，因为是一个值且为数值，所以它表示 <code>flex-grow</code>，后续我发现只用设置了<code>flex: 数字</code>，那么 <code>flex-basis</code> 就自动成了 0%，所以，设置<code>flex:0</code> 的元素的最终尺寸表示为最小内容宽度；</p>
+<blockquote>
+<p>注意：</p>
+<p>flex: 1 === flex: 1 1 0%</p>
+<p>flex: 0 === flex: 0 1 0%</p>
+<p>flex 设置为数字后，虽然 <code>flex-basis</code> 为最小宽度，但是前者的 <code>flex-grow</code> 有值，可以把子项扩充满容器，后者为 0，不扩展</p>
+</blockquote>
+<p><code>flex: none</code>，既不是数值也不是长度值，<code>none</code> 关键字。<code>flex: 0 0 auto</code> 表示元素尺寸不会收缩也不会扩展，再加上 <code>flex-basis: auto</code> 表示固定尺寸由内容决定，由于元素不具有弹性，因为，元素内的元素不会换行，最终尺寸通常表现为最大内容宽度</p>
+<h4 id="适用使用-flex-0-的场景"><a href="#适用使用-flex-0-的场景" class="headerlink" title="适用使用 flex: 0 的场景"></a>适用使用 flex: 0 的场景</h4><p><img src="https://i.loli.net/2021/10/19/PpGRc8WHfSVTw9a.png" alt="flex：0的应用场景"></p>
+<p>无论文字的内容给如何设置，左侧内容的宽度都是图像的宽度</p>
+<h4 id="适合使用-flex-none-的场景"><a href="#适合使用-flex-none-的场景" class="headerlink" title="适合使用 flex: none 的场景"></a>适合使用 flex: none 的场景</h4><p>当 flex 子项的宽度就是内容的宽度，且内容永远不会换行，则适合使用 <code>flex:none</code>，例如如下的场景，图片和按钮固定长度，内容弹性</p>
+<p><img src="https://i.loli.net/2021/10/19/ANQzfkuT4xiaXsO.png" alt="flex:none适用场景"></p>
+<h3 id="flex-1-和-flex-auto-的区别和适用场景"><a href="#flex-1-和-flex-auto-的区别和适用场景" class="headerlink" title="flex: 1 和 flex: auto 的区别和适用场景"></a>flex: 1 和 flex: auto 的区别和适用场景</h3><p><code>flex:1</code> 等同于设置 <code>flex: 1 1 0%</code> ，<code>flex: auto</code> 等同于 <code>flex: 1 1 auto</code></p>
+<p>可以看出两者的 <code>flex-grow</code> 和 <code>flex-shrink</code> 都是一样的，意味着它们都可以弹性扩展以及弹性收缩，区别在于 <code>flex: 1</code> 中 <code>flex-basis</code> 为 0，即宽度为 0。<code>flex:auto</code> 中的 <code>flex-basis</code>为 auto，即宽度为自身宽度</p>
+<p>表现的样子为：</p>
+<p><img src="https://i.loli.net/2021/10/19/SKf1ap8zXUxWiMP.png" alt="flex:1"></p>
+<p>这里需要解释一下，因为我最开始也不理解，其公式为：</p>
+<p>每个子项的宽度 = （总宽度 - <code>flex-basis</code> 的宽度）/ 3（以这个例子为例）</p>
+<p>因为 <code>flex:1</code> 的 <code>flex-basis</code> 的宽度为 0 ，所以最后它的总宽度扩张或者收缩时每个子项都能等分</p>
+<h4 id="适用于-flex-1-的场景"><a href="#适用于-flex-1-的场景" class="headerlink" title="适用于 flex: 1 的场景"></a>适用于 flex: 1 的场景</h4><p>当希望元素充分利用剩余空间，同时不会侵占其他元素应用的宽度的适用，适合适用 <code>flex:1</code>，例如所有的等分列表</p>
+<p>之前适用 <code>flex: none</code> 的例子，同样设置文字部分<code>flex: 1</code> 也能实现类似的效果</p>
+<p><img src="https://i.loli.net/2021/10/19/xjmG7w3JEhv86Ms.png" alt="flex:1"></p>
+<h4 id="适用于-flex-auto-的场景"><a href="#适用于-flex-auto-的场景" class="headerlink" title="适用于 flex: auto 的场景"></a>适用于 flex: auto 的场景</h4><p>当希望元素充分利用剩余空间，但是各自的尺寸按照各自内容进行分配的时候，适用于 <code>flex: auto</code></p>
+<p>例如导航数量不固定，每个导航文字数量页不固定的导航效果就适合适用 <code>flex: auto</code></p>
+<p><img src="https://i.loli.net/2021/10/19/z5jdOucg6e3UxHq.png" alt="flex-auto"></p>
+<p>回过头来看之前说的面试题</p>
+<ol>
+<li><code>flex: 0 1 auto</code> 怎么理解？</li>
+<li><code>flex: 1</code>具体代表什么，有什么应用场景</li>
+<li><code>flex: 0</code>、<code>flex: 1</code>、<code>flex: none</code>、<code>flex: auto</code>，表示什么意思，并应用在什么场景下使用？</li>
+</ol>
+<p>第一个问题回答</p>
+<p>flex 的默认值为 0 1 auto，表示容器剩余空间有多余的时候不扩展，不足的时候收缩，子项的宽度根据自身的宽度来展示</p>
+<p>第二个问题回答</p>
+<p>脑子思考 flex 的值如果是一个值且为数字，说明是 <code>flex-grow:1</code>，当它为数字时，<code>flex-basis</code> 会自动变成 0，所以它具体表示为 <code>flex:1 1 0%</code>，表示容器剩余空间有多余的时候扩展，不足的时候收缩，子项的宽度为 0。它一般适用于充分利用剩余空间，又不侵占其他元素的宽度，例如等分布局</p>
+<p>第三个问题回答</p>
+<p><code>flex:0</code>，表示 <code>flex: 0 1 0%</code>，表示容器剩余空间有多余的时候不扩展，不足的时候收缩，子项的宽度为 0，适用设置在替换元素的父元素上</p>
+<p><code>flex:1</code>，看第二个回答</p>
+<p><code>flex: none</code>，表示 <code>flex: 0 0 auto</code>，表示容器剩余空间有多余的时候不扩展，不足的时候也不收缩，子项的宽度为自身宽度，适用于不换行的内容或者较少的小控件元素上</p>
+<p><code>flex: auto</code>，表示 <code>flex: 1 1 auto</code>，表示容器剩余空间有多余的时候扩展，不足的时候收缩，子项的宽度为自身宽度，适用于基于内容动态适配的布局（例如导航数量文字长度不固定）</p>
+<p><code>flex:initial</code>，表示 <code>flex: 0 1 auto</code>，表示容器剩余空间有多余的时候不扩展，不足的时候收缩，子项的宽度为自身宽度，适用于小控件元素的分布布局，或者某一项内容动态变化的布局</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2020/10/css-flex-0-1-none/">flex:0 flex:1 flex:none flex:auto 应该在什么场景下使用？</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2019/12/css-flex-deep/">CSS flex 属性深入理解</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex">MDN Web Docs flex</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903474774147086">一劳永逸的搞定 flex 布局</a></p>
+</li>
+</ul>
+</div><div class="tags"><a href="/tags/flex/"><i class="fa fa-tag"></i>flex</a></div><div class="post-nav"><a class="pre" href="/2021/10/25/2021-10-25-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD/">水平垂直居中的17种方法</a><a class="next" href="/2021/10/15/2021-10-15-%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AAa%E6%98%AF1%E4%B8%8D%E6%98%AF5/">编程题：为什么最后一个a是1不是5</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>

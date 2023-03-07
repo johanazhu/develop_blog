@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title>用 Node 搭建最小实现脚手架 | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">用 Node 搭建最小实现脚手架</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a class="current" href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title">用 Node 搭建最小实现脚手架</h1><div class="post-meta">2021-09-01<span> | </span><span class="category"><a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--><a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--></span><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span><span> | </span><span>作者：</span><span class="author">赵显坤</span></div><div class="post-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文介绍使用 Node 做一个脚手架，便于快速开发项目。我们开发的是脚手架，而非项目，目前本人只有一个脚手架 <a target="_blank" rel="noopener" href="https://github.com/johanazhu/koa-basic">Koa 脚手架</a> ，后续写到 React、webpack 时，会搭建属于自己的一套 H5 端的开发模板。本文以实现最小脚手架为出发点展开写作，后续也会在此基础上添砖加瓦</p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>A：大 B 哥，Node 能做什么？</p>
+<p>B：搭建 Web 服务噜</p>
+<p>A：不仅如此，它还能操作系统</p>
+<p>B：怎么说？</p>
+<p>A：知道 Webpack 吗？它就是用 Node 写的。还有像<a target="_blank" rel="noopener" href="https://github.com/facebook/create-react-app"> create-react-app</a>、 <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-cli">vue-cli</a>、<a target="_blank" rel="noopener" href="https://github.com/NervJS/taro/tree/next/packages/taro-cli">@tarojs/cli</a> 这些，都是用 Node 写的，这些 cli 被称为脚手架，你只要使用一些命令就能下载模板快速开发</p>
+<p>B：（各种羡慕、吹捧后），我也想做一套自己的脚手架</p>
+<p>A：我教你啊</p>
+<h2 id="一个脚手架的思路"><a href="#一个脚手架的思路" class="headerlink" title="一个脚手架的思路"></a>一个脚手架的思路</h2><p>看 <a target="_blank" rel="noopener" href="https://github.com/facebook/create-react-app"> create-react-app</a>、 <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-cli">vue-cli</a>、<a target="_blank" rel="noopener" href="https://github.com/NervJS/taro/tree/next/packages/taro-cli">@tarojs/cli</a> 的各自的仓库，我们能得出一些共同点，例如多套模板、友好的交互、优美的 UI 等等。我们这里以 taro 为例，先用用，看看，再仿着做一个</p>
+<p><img src="https://i.loli.net/2021/08/31/8NhJZHDseSbmncq.png" alt="使用Taro-cli创建项目"></p>
+<p>它是怎么做到选择不同的模板，能生成不同的文件呢？明明只有一个基础模板啊，选择 scss 就生成 scss 文件，选择 TypeScript 生成 TS 文件，现在还看不懂源码，以后写完 webpack 再来看看，我们这里只先做一个最简单的脚手架</p>
+<h2 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir azhu-cli</span><br><span class="line">cd azhu-cli</span><br><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>然后在 package.json 中写点项目信息</p>
+<h2 id="需要安装的-npm-包"><a href="#需要安装的-npm-包" class="headerlink" title="需要安装的 npm 包"></a>需要安装的 npm 包</h2><p>我们先列个表格，查看一下各个 npm 包是什么，有什么用，后续在写代码时一步步添加进去</p>
+<table>
+<thead>
+<tr>
+<th>包名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/commander">commander</a></td>
+<td>执行复杂的命令</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/inquirer">inquirer</a></td>
+<td>问答交互</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/download-git-repo">download-git-repo</a></td>
+<td>下载远程模板</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/chalk">chalk</a></td>
+<td>让你 console.log 出来的字带颜色，比如成功时的绿色字</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/ora">ora</a></td>
+<td>loading</td>
+</tr>
+</tbody></table>
+<h2 id="创建一个命令"><a href="#创建一个命令" class="headerlink" title="创建一个命令"></a>创建一个命令</h2><p>先创建 <code>index.js</code>，在代码中写入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hello world&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在终端中运行 node 程序，输入 node 命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node index.js</span><br></pre></td></tr></table></figure>
+
+<p>可以正确输出 <code>hello world</code> ，代码顶部的 <code>#!/usr/bin/env node</code> 是告诉终端，这个文件要使用 node 去执行</p>
+<p>一般 cli 都有一个特定的命令，例如 <code>taro</code>，<code>git</code> 等，我们设置我们的命令—— <code>azhu</code>。如何让终端识别这个命令呢？很简单，在 package.json 文件中添加一个字段 <code>bin</code>，并且声明一个命令关键字和对应执行的文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># package.json</span><br><span class="line">...</span><br><span class="line"><span class="attr">&quot;bin&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;azhu&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>然后我们测试一番，在终端中输入 <code>azhu</code>，会提示：</p>
+<p><img src="https://i.loli.net/2021/08/31/Ua9hHfQcjwxYAV3.png" alt="azhu错误"></p>
+<p>为什么会这样呢？通常我们在使用 cli 工具时，都需要先安装它，比如 vue-cli，@tarojs/cli，使用前需要全局安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i vue-cli -g</span><br><span class="line">npm i @tarojs/cli -g</span><br></pre></td></tr></table></figure>
+
+<p>而我们的 azhu-cli 并没有发布到 npm 上，当然也没有安装过，所以终端现在还不认识这个命令。通常我们想本地测试一个 npm 包，可以使用 <code>npm link</code> 这个命令，本地安装这个包，我们执行一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm link</span><br></pre></td></tr></table></figure>
+
+<p>再执行 <code>azhu</code> 命令，就看到 <code>hello world</code> 了</p>
+<blockquote>
+<p>注：npm unlink 卸载本地包</p>
+</blockquote>
+<h2 id="执行复杂的命令"><a href="#执行复杂的命令" class="headerlink" title="执行复杂的命令"></a>执行复杂的命令</h2><p>commander：处理命令行交互</p>
+<ul>
+<li>自带了 -V，-h 交互</li>
+<li>可以通过 <code>program.command</code> 添加交互</li>
+<li><code>program.parse</code> 将命令参数传入 commander 管道中，一般放在最后执行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i commander --save</span><br></pre></td></tr></table></figure>
+
+<p>改造 <code>index.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> program = <span class="built_in">require</span>(<span class="string">&#x27;commander&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> package = <span class="built_in">require</span>(<span class="string">&#x27;./package.json&#x27;</span>)</span><br><span class="line">program.<span class="title function_">version</span>(package.<span class="property">version</span>)</span><br><span class="line">program.<span class="title function_">parse</span>(process.<span class="property">argv</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>azhu -h</code></p>
+<p><img src="https://i.loli.net/2021/08/31/a2B5ng9rfWT8zks.png" alt="commander处理"></p>
+<h2 id="添加问答操作"><a href="#添加问答操作" class="headerlink" title="添加问答操作"></a>添加问答操作</h2><p>inquirer 添加问答操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i inquirer --save</span><br></pre></td></tr></table></figure>
+
+<p>语法很简单，直接看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">inquirer</span><br><span class="line">  .<span class="title function_">prompt</span>([</span><br><span class="line">    &#123; <span class="attr">type</span>: <span class="string">&#x27;input&#x27;</span>, <span class="attr">message</span>: <span class="string">&#x27;请输入项目名称&#x27;</span>, <span class="attr">name</span>: <span class="string">&#x27;name&#x27;</span> &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&#x27;请选择项目模板&#x27;</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;template&#x27;</span>,</span><br><span class="line">      <span class="attr">choices</span>: [<span class="string">&#x27;koa-basic&#x27;</span>],</span><br><span class="line">    &#125;,</span><br><span class="line">  ])</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">answers</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;answers&#x27;</span>, answers)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>每个选项中的 name 为答案输出的值</p>
+<p><img src="https://i.loli.net/2021/09/01/5dD3YqCer76Pmzl.png" alt="inquirer"></p>
+<h2 id="克隆模板"><a href="#克隆模板" class="headerlink" title="克隆模板"></a>克隆模板</h2><p>download-git-repo</p>
+<ul>
+<li>下载远程模板</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i download-git-repo --save</span><br></pre></td></tr></table></figure>
+
+<p>原本使用 shelljs，但是死活下载不下来，只能选择另一个工具</p>
+<p>当我们下载写好项目名字，选择好模板后，下一步就要从远程仓库上把模板下载过来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.<span class="title function_">then</span>(<span class="function">(<span class="params">answers</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;正在拷贝项目，请稍等&#x27;</span>)</span><br><span class="line">      <span class="keyword">const</span> remote = <span class="string">&#x27;https://github.com:johanazhu/koa-basic#master&#x27;</span></span><br><span class="line">      <span class="keyword">const</span> tarName = answers.<span class="property">name</span></span><br><span class="line">      <span class="title function_">download</span>(remote, tarName, &#123; <span class="attr">clone</span>: <span class="literal">true</span> &#125;, <span class="keyword">function</span> (<span class="params">err</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(err)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;成功&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加-UI-交互"><a href="#添加-UI-交互" class="headerlink" title="添加 UI 交互"></a>添加 UI 交互</h2><p>有时候下载远程仓库时会花很多时间，我们必须为了体验，需要加一些 UI 效果优化体验</p>
+<p>chalk &amp; ora</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i chalk ora --save</span><br></pre></td></tr></table></figure>
+
+<p>chalk 是给 console 加颜色</p>
+<p>ora 是加 loading 效果的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">.<span class="title function_">then</span>(<span class="function">(<span class="params">answers</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;正在拷贝项目，请稍等&#x27;</span>)</span><br><span class="line">    <span class="keyword">const</span> remote = <span class="string">&#x27;https://github.com:johanazhu/koa-basic#master&#x27;</span></span><br><span class="line">    <span class="keyword">const</span> tarName = answers.<span class="property">name</span></span><br><span class="line">    + <span class="keyword">const</span> spinner = <span class="title function_">ora</span>(<span class="string">&#x27;download template......&#x27;</span>).<span class="title function_">start</span>()</span><br><span class="line">    <span class="title function_">download</span>(remote, tarName, &#123; <span class="attr">clone</span>: <span class="literal">true</span> &#125;, <span class="keyword">function</span> (<span class="params">err</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            + <span class="variable language_">console</span>.<span class="title function_">log</span>(chalk.<span class="title function_">red</span>(err))</span><br><span class="line">            spinner.<span class="title function_">fail</span>()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            + <span class="variable language_">console</span>.<span class="title function_">log</span>(chalk.<span class="title function_">green</span>(<span class="string">&#x27;成功&#x27;</span>))</span><br><span class="line">            spinner.<span class="title function_">succeed</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://i.loli.net/2021/09/01/tTVFrSi431Xy6dH.png" alt="chalk&amp;ora"></p>
+<h2 id="发布-npm"><a href="#发布-npm" class="headerlink" title="发布 npm"></a>发布 npm</h2><p>先登录 npm，再发布</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm login</span><br><span class="line">...</span><br><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+
+<h2 id="额外知识点"><a href="#额外知识点" class="headerlink" title="额外知识点"></a>额外知识点</h2><h3 id="包管理方式"><a href="#包管理方式" class="headerlink" title="包管理方式"></a>包管理方式</h3><p><img src="https://i.loli.net/2021/08/31/BbwqCXi4p2h7Ttd.png" alt="包管理方式对比"></p>
+<h4 id="monorepo"><a href="#monorepo" class="headerlink" title="monorepo"></a>monorepo</h4><ul>
+<li><p>将多个项目代码存储在一个仓库里的软件开发策略</p>
+</li>
+<li><p>把所有的项目相关都放在一个仓库（比如 React，Babel，Umi，Taro）</p>
+</li>
+<li><p>集中管理</p>
+</li>
+<li><p>优势</p>
+<ul>
+<li>统一工作流</li>
+<li>降低基建成本</li>
+<li>提高团队协作效率</li>
+</ul>
+</li>
+<li><p>劣势</p>
+<ul>
+<li>体积问题</li>
+<li>权限问题</li>
+<li>版本控制</li>
+</ul>
+</li>
+</ul>
+<h4 id="multirepo"><a href="#multirepo" class="headerlink" title="multirepo"></a>multirepo</h4><ul>
+<li>按模块放在为多个仓库（webpack、rollup）</li>
+<li>优势<ul>
+<li>灵活</li>
+<li>安全</li>
+</ul>
+</li>
+<li>劣势<ul>
+<li>代码复用</li>
+<li>版本管理</li>
+<li>开发调试</li>
+<li>搭建基础架构</li>
+</ul>
+</li>
+</ul>
+<p>大的项目可以使用 monorepo，独立性比较强的可以采用 multirepo</p>
+<p>我个人更喜欢 multirepo 的哲学</p>
+<p>有人上升到哲学层面，其实俺觉得不同的项目应采用合适自己的管理方式，像 webpack、rollup 之类，项目独立性比较强，就可以用使用 multirepo ，而像 React，Umi，Taro 之类的框架，它首先要拆分功能点，其次每个子库之间需要与主库有所依赖，如果采用 multirepo 方式，关联起来会很麻烦，采用统一管理的方式能节省很多时间</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>一：使用 <code>shelljs</code> 常有报错，暂时解决不了，所以用 <code>download-git-repo</code> 这种方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/johanazhu/koa-basic/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
+
+<p>解决方案</p>
+<p>打开 Git 命令页面，执行 git 命令脚本：修改设置，解除 ssl 验证</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：git config –list 查看你的 config 信息</p>
+</blockquote>
+<p>二：<code>download-git-repo</code> 报错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;git clone&#x27; failed with status 128</span><br></pre></td></tr></table></figure>
+
+<p>解决方案：<a target="_blank" rel="noopener" href="https://github.com/wuqiong7/Note/issues/17">https://github.com/wuqiong7/Note/issues/17</a></p>
+<p>我将 remote 地址改成：<a href="https://github.com:johanazhu/koa-basic#master">https://github.com:johanazhu/koa-basic#master</a> 就好了</p>
+<p>Github 已发布：<a target="_blank" rel="noopener" href="https://github.com/johanazhu/azhu-cli">https://github.com/johanazhu/azhu-cli</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/imaoda/js-front-end-practice/blob/master/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%84%9A%E6%89%8B%E6%9E%B6.md">搭建一个企业级脚手架</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/CO6La0NCHnsfXN4MHgiBag">从零开发一个 node 命令行工具</a></p>
+</li>
+</ul>
+</div><div class="tags"><a href="/tags/%E8%84%9A%E6%89%8B%E6%9E%B6/"><i class="fa fa-tag"></i>脚手架</a><a href="/tags/NodeJS/"><i class="fa fa-tag"></i>NodeJS</a></div><div class="post-nav"><a class="pre" href="/2021/09/05/2021-09-05-%E5%BC%A0%E4%B8%80%E9%B8%A3%E5%BE%AE%E5%8D%9A%E8%AE%B0%E5%BD%95/">张一鸣微博记录</a><a class="next" href="/2021/08/30/2021-08-30-%E6%89%8B%E5%86%99Koa2/">一步一步来：手写Koa2</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>

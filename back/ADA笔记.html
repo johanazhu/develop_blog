@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title> | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">Azhubaby Blog</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title"></h1><div class="post-content"><h1 id="ADA-笔记"><a href="#ADA-笔记" class="headerlink" title="ADA 笔记"></a>ADA 笔记</h1><blockquote>
+<p>这里记录 ADA 相关的信息</p>
+</blockquote>
+<h2 id="质押"><a href="#质押" class="headerlink" title="质押"></a>质押</h2><h3 id="什么是质押（staking）"><a href="#什么是质押（staking）" class="headerlink" title="什么是质押（staking）"></a>什么是质押（staking）</h3><p>一句话解释：挖矿</p>
+<p>以太坊的挖矿是需要花钱买矿机，用工作量证明（即 POW 机制）来获取收益。即你要花钱买矿机，以及让矿机运行着，才能挖到矿</p>
+<p>而 ADA 的挖矿机制是 POS，即股权证明，简单来说，根据你持有的量和时间，给你发利息的制度。以太坊2.0 会将 POW 机制改成 POS 机制，不过现在还没上线 </p>
+<h3 id="如何参与质押"><a href="#如何参与质押" class="headerlink" title="如何参与质押"></a>如何参与质押</h3><p>三种方式</p>
+<ul>
+<li>交易所里直接质押<ul>
+<li>不推荐，不安全，例如交易所跑路</li>
+<li>与去中心化相背而行</li>
+<li>收益不透明</li>
+</ul>
+</li>
+<li>第三方钱包，例如 COTI、imtoken 等<ul>
+<li>与去中心化相背而行</li>
+<li>收益不透明</li>
+</ul>
+</li>
+<li>官方钱包<ul>
+<li>最为推荐</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何质押"><a href="#如何质押" class="headerlink" title="如何质押"></a>如何质押</h3><p>以放在官方钱包为例，先把你的ADA币从交易所提出来，例如放在 nami 钱包中，再去<a target="_blank" rel="noopener" href="https://pool.pm/">pool.pm</a>，找到自己心仪的权益池，点击右上方最下栏的 join 按钮，输入你的钱包地址，即可质押成功</p>
+<p>具体，可以看看这几个视频手把手教学质押</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=M03APm7KTxE&t=56s">cardano ccvault钱包下载和使用</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gWk8rDIH574">cardano nami 钱包 选择别的池子质押</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=rpVxtRRzpng&t=9s">新手教程: Ada币从交易所提币, 再用Yoroi钱包质押挖矿</a></p>
+</blockquote>
+<p>就是把你的币从交易所提取处理啊</p>
+<p>cc钱包质押（推荐）：比较简单，如果你从来没有接触过，可以先查看这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=M03APm7KTxE&t=56s">视频</a></p>
+<p>nami钱包质押：nami钱包质押比较复杂，nami默认只能Berry池子，很不方便。 有两种方式：</p>
+<ul>
+<li>第一种：借用<a target="_blank" rel="noopener" href="https://pool.pm/c1f5cfd4330339e90ba83a64d269a81cf415d7adab36403e27b910f7">pool.pm</a>，点击右边最下方 join 按钮，不清楚可以先看 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gWk8rDIH574">视频</a></li>
+<li>第二种：nami钱包质押权益池，不清楚的可以查看<a target="_blank" rel="noopener" href="https://armada-alliance.com/guides/setup-a-nami-delegate-button-on-your-website">视频</a>，（后续发现也支持flint钱包，操作是一样的，默认好像先弹出flint钱包，你可以先关闭nami和flint,在谷歌浏览器里）</li>
+</ul>
+<h3 id="质押的收益"><a href="#质押的收益" class="headerlink" title="质押的收益"></a>质押的收益</h3><p>ada权益池质押年化收益4~5%，以币为结算单位。池子满了之后收益会降低，所以不要质押到已经满的池子</p>
+<p>理论上一个池子107万ada每个纪元能稳定产出一个区块</p>
+<p>没有区块就没有收益，但是小池子利益相关人少，所以低于100万ada的小池子也有大收益</p>
+<p>没有区块就没有收益，但是小池子利益相关人少，所以低于100万ada的小池子也有大收益</p>
+<p>池子产生一个区块，池主固定扣除340ada，再从分发给质押者的收益里提取百分比费用</p>
+<p><img src="https://s2.loli.net/2022/06/19/b9HUacQnSrOFPDl.png" alt="百度信息"></p>
+<h3 id="质押的收费"><a href="#质押的收费" class="headerlink" title="质押的收费"></a>质押的收费</h3><p>总费用=固定费用+浮动费用</p>
+<p>固定费用，固定的，340ADA</p>
+<p>浮动费用，0~3%</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://pool.pm/c1f5cfd4330339e90ba83a64d269a81cf415d7adab36403e27b910f7">baidu</a>：0%的浮动费用和340Ada固定费用（我的币都放在baidu里）</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://pool.pm/ae3bc5a76ac9e46678ab650a81cc6491a074a9d970b5a7703a2d0c8e">996</a>：0.5%的浮动费用和340Ada固定费用</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://pool.pm/f423b19715cca49029ed13ff02a110b63de7d96ad7a0536dc5887a41">FIKA</a>：1.8%的浮动费用和340Ada固定费用</p>
+</li>
+</ul>
+<h3 id="质押选大池还是小池？"><a href="#质押选大池还是小池？" class="headerlink" title="质押选大池还是小池？"></a>质押选大池还是小池？</h3><p>大池：300万以上</p>
+<p>超过6500万个ADA的池子，就是过度饱和</p>
+<p>小池出块不稳定，能选吗？ </p>
+<p>质押的固定收费和浮动收费，是什么意思，是怎么收的？ </p>
+<h3 id="质押的其他信息"><a href="#质押的其他信息" class="headerlink" title="质押的其他信息"></a>质押的其他信息</h3><p>为什么要参加质押？回答这个问题之前，先了解下质押是否安全，如果是矿池质押，基本没风险，可以想象成你投了矿池运营者的投票，而不是你的币本身，你的币还在你的钱包中。回过头看为什么要质押，因为质押会产生收益，一年4~5%的收益，币又在钱包中，为什么不去做呢？</p>
+<p>既然 ADA 挖矿优势这么大，那它有锁定期吗（银行定期存款思维）？<strong>没有</strong></p>
+<p>有没有最低数量要求，也没有。但是要说的是，如果你的币太少，产生的收益也会很少，如此没必要玩</p>
+<h2 id="信息查询"><a href="#信息查询" class="headerlink" title="信息查询"></a>信息查询</h2><p>可以在 pool.pm 上看到所有人（池）的钱包地址，买了什么NTF和代币等</p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/c1f5cfd4330339e90ba83a64d269a81cf415d7adab36403e27b910f7">pool.pm——baidu</a></p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/f423b19715cca49029ed13ff02a110b63de7d96ad7a0536dc5887a41">pool.pm——FIKA</a></p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/ae3bc5a76ac9e46678ab650a81cc6491a074a9d970b5a7703a2d0c8e">pool.pm——996</a></p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/90623c7965c5d12b86c4adcc09144670ff9009e33dee0fae9b39d13a">pool.pm——CHINA</a></p>
+<p><a target="_blank" rel="noopener" href="https://cardanoscan.io/pool/c1f5cfd4330339e90ba83a64d269a81cf415d7adab36403e27b910f7">cardanoscan.io——baidu</a></p>
+<p><a target="_blank" rel="noopener" href="https://cardanoscan.io/pool/f423b19715cca49029ed13ff02a110b63de7d96ad7a0536dc5887a41">cardanoscan.io——FIKA</a></p>
+<p><a target="_blank" rel="noopener" href="https://cardanoscan.io/pool/ae3bc5a76ac9e46678ab650a81cc6491a074a9d970b5a7703a2d0c8e">cardanoscan.io——996</a></p>
+<p><a target="_blank" rel="noopener" href="https://cardanoscan.io/pool/90623c7965c5d12b86c4adcc09144670ff9009e33dee0fae9b39d13a">cardanoscan.io——CHINA</a></p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/addr1qyekeqyw26kggy8sz8kp0lfsxxwvv4j9ed9yf73ua4dw6j5nx7w626rl6pkt73ecrtk5m5s0efvpzmhh35m5u9l0pj2ssrwp7q">我的pool.pm记录</a></p>
+<p><a target="_blank" rel="noopener" href="https://pool.pm/stake1uym6uf4wazeru6eszwyw3445va69dtsxt7t4mlfrtjphtrgzax7nr">大牛的 pool.pm 记录</a>：个人怀疑是baidu的矿主<a target="_blank" rel="noopener" href="https://twitter.com/zjavax">zjavax</a>的其中一个钱包地址</p>
+<p>每5天进行一次快照，<a target="_blank" rel="noopener" href="https://dripdropz.io/">https://dripdropz.io/</a> 这个网站可以看每个纪元的倒计时</p>
+<p>每个纪元开始是国内第五天的凌晨5:40</p>
+<h3 id="矿池（权益池）动态"><a href="#矿池（权益池）动态" class="headerlink" title="矿池（权益池）动态"></a>矿池（权益池）动态</h3><p>矿池动态工具： <a target="_blank" rel="noopener" href="https://www.youtube.com/redirect?event=comments&redir_token=QUFFLUhqbklidmdGNmNKdERzR1dZZGlkQjcydHg4NjRtQXxBQ3Jtc0tsRXhJakphV240emxveVRPMGhZa29TNmViUk5SUXZvdzBjZmdSLVdMaW5Ha3FBbmRXcnd4UEJBc01kY3FhNFluRUY2UHhNLThVT0t2YWt4WkRNWUdKc2JhT3EzYjdlc3pkQzFiTkU5UzNmdTNuaElrSQ&q=http://adapools.org/%E2%80%8B&stzid=Ugz0FfDZZ2i_X6FhXG14AaABAg">http://adapools.org/</a> </p>
+<h2 id="钱包"><a href="#钱包" class="headerlink" title="钱包"></a>钱包</h2><p><a target="_blank" rel="noopener" href="https://yoroi-wallet.com/#/">Yoroi</a>——官方指定钱包。</p>
+<p>​      由于 Cardano 缺少移动端钱包，所以 yoroi 多作为移动端用户使用的钱包，但是钱包交易记录过多后同步时间相当慢，卡顿严重，体验非常不好，除非只能用手机否则不推荐。</p>
+<p><a target="_blank" rel="noopener" href="https://namiwallet.io/">Nami</a>——Cardano使用人数最多的钱包。</p>
+<p>​      如果大家在使用过 yoroi 之后再使用 nami 的话，会对 nami 的丝滑感到无比的快乐，而且插件也极其便携，UI设计美观，目前只有电脑端浏览器拓展程序，与小狐狸钱包MetaMask使用方法类似，推荐使用。</p>
+<p><a target="_blank" rel="noopener" href="https://daedaluswallet.io/">Daedalus</a>——Cardano开源钱包。</p>
+<p>​      Daedalus牛头钱包也是 Cardano 上使用较多的钱包。它是一个开源的钱包，致力于与 Cardano 网络共同成长。</p>
+<p><a target="_blank" rel="noopener" href="https://ccvault.io/app/mainnet/wallet/add">CCVault</a>——Cardano轻钱包。</p>
+<p>​      目前最好用的Ada浏览器钱包，因为是web浏览器钱包，显示功能非常强大，可以看到清晰查看自己的账户总览，并且以图片的方式展现NFT和搜索，功能最齐全的钱包</p>
+<p><a target="_blank" rel="noopener" href="https://www.lace.io/">lace</a></p>
+<ul>
+<li>官方推荐：lace.io</li>
+<li>牛头：<a target="_blank" rel="noopener" href="https://daedaluswallet.io/">https://daedaluswallet.io/</a></li>
+<li>YOROI：<a target="_blank" rel="noopener" href="https://yoroi-wallet.com/">https://yoroi-wallet.com/</a></li>
+<li>NAMI：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo">nami</a></li>
+<li>CC钱包：</li>
+</ul>
+<p>查看一个池子的出块奖励，以baidu为例，可以在<a target="_blank" rel="noopener" href="https://adapools.org/stake/e1fa913264489f37ad316a9d42bc4134772a2e5142cc800494de5cf809">这里</a>看到</p>
+<p><img src="https://s2.loli.net/2022/06/18/EtsFdcDJnA9xlS1.png" alt="baidu出块奖励"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=eGY1RH1oFPk&t=4s">史上最全Cardano Ada质押挖矿指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6CTjNhk55xY">想运营Ada币矿池？你需要这几大能力！</a></li>
+<li><a target="_blank" rel="noopener" href="https://gen8.orz.com.cn/blog/index.php/archives/308/">杂谈F.A.Q：ADA权益池怎么选</a></li>
+<li><a target="_blank" rel="noopener" href="https://zjavax.github.io/cardano_doc/#/">Cardano生态信息中文分享网</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=M03APm7KTxE&t=56s">cardano ccvault钱包下载和使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gWk8rDIH574">cardano nami 钱包 选择别的池子质押</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=rpVxtRRzpng&t=9s">新手教程: Ada币从交易所提币, 再用Yoroi钱包质押挖矿</a></li>
+</ul>
+</div></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title> | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">Azhubaby Blog</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title"></h1><div class="post-content"><h1 id="前端架构课笔记"><a href="#前端架构课笔记" class="headerlink" title="前端架构课笔记"></a>前端架构课笔记</h1><h2 id="前言：课程介绍"><a href="#前言：课程介绍" class="headerlink" title="前言：课程介绍"></a>前言：课程介绍</h2><p><img src="https://s2.loli.net/2022/05/01/yOL8m6NucI2M4Ct.png" alt="课程分工"></p>
+<h2 id="第一周：需求分析和架构设计：做什么，如何做？"><a href="#第一周：需求分析和架构设计：做什么，如何做？" class="headerlink" title="第一周：需求分析和架构设计：做什么，如何做？"></a>第一周：需求分析和架构设计：做什么，如何做？</h2><h3 id="架构设计周介绍"><a href="#架构设计周介绍" class="headerlink" title="架构设计周介绍"></a>架构设计周介绍</h3><p><img src="https://s2.loli.net/2022/05/01/IvDRlp2XWGUAmHO.png" alt="架构设计关键字"></p>
+<p>用架构师思维来做一个H5</p>
+<p><img src="https://s2.loli.net/2022/05/01/5rCQzZxwGd3bFI4.png" alt="思维导图"></p>
+<h3 id="浅层需求"><a href="#浅层需求" class="headerlink" title="浅层需求"></a>浅层需求</h3><p><img src="https://s2.loli.net/2022/05/01/5lifGOMVYKmxzJw.png" alt="浅层需求"></p>
+<h3 id="深层需求"><a href="#深层需求" class="headerlink" title="深层需求"></a>深层需求</h3><p><img src="../AppData/Roaming/Typora/typora-user-images/image-20220501084817582.png" alt="深层需求1"></p>
+<p><img src="https://s2.loli.net/2022/05/01/Tn4Ji7xugMzNPqQ.png" alt="深层需求2"></p>
+<h3 id="整体架构设计"><a href="#整体架构设计" class="headerlink" title="整体架构设计"></a>整体架构设计</h3><p><img src="https://s2.loli.net/2022/05/01/dD3Mo5vuYXTyG2j.png" alt="整体架构设计"></p>
+<h3 id="分析需要多少个项目"><a href="#分析需要多少个项目" class="headerlink" title="分析需要多少个项目"></a>分析需要多少个项目</h3><p><img src="https://s2.loli.net/2022/05/01/RUYb6TZL1Xd2iEu.png" alt="分析需要多少个项目"></p>
+<p>要做七个项目</p>
+<p><img src="https://s2.loli.net/2022/05/01/JVMCIjYcNLAxe8H.png" alt="架构图"></p>
+<h3 id="需要自研统计服务"><a href="#需要自研统计服务" class="headerlink" title="需要自研统计服务"></a>需要自研统计服务</h3><p><img src="https://s2.loli.net/2022/05/01/ZsxpKRkj6l7Fn8U.png" alt="自研统计服务"></p>
+<h3 id="多个项目之间的关系图"><a href="#多个项目之间的关系图" class="headerlink" title="多个项目之间的关系图"></a>多个项目之间的关系图</h3><p><img src="https://s2.loli.net/2022/05/01/u5iECDPXFVvWa3M.png" alt="多个项目之间的关系图草图"></p>
+<p><img src="https://s2.loli.net/2022/05/01/fnFdJvmb8EBcxse.png" alt="多个项目之间的关系图"></p>
+<h3 id="技术方案文档的重要性"><a href="#技术方案文档的重要性" class="headerlink" title="技术方案文档的重要性"></a>技术方案文档的重要性</h3><p><img src="https://s2.loli.net/2022/05/01/voxikgQSGbt13yf.png" alt="技术方案文档的重要性"></p>
+<h3 id="写架构设计文档"><a href="#写架构设计文档" class="headerlink" title="写架构设计文档"></a>写架构设计文档</h3><p><img src="https://s2.loli.net/2022/05/01/CDHGbjWmd25cwnl.png" alt="写架构设计文档1"></p>
+<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20220501092548384.png" alt="写架构设计文档1"></p>
+<p>Web 前端架构师课 - 学习笔记</p>
+<p>提交你的学习笔记</p>
+<p><a target="_blank" rel="noopener" href="https://homework.imooc-lego.com/">https://homework.imooc-lego.com/</a></p>
+<h2 id="第二周：脚手架架构设计和框架搭建"><a href="#第二周：脚手架架构设计和框架搭建" class="headerlink" title="第二周：脚手架架构设计和框架搭建"></a>第二周：脚手架架构设计和框架搭建</h2><h3 id="本周目标"><a href="#本周目标" class="headerlink" title="本周目标"></a>本周目标</h3><h4 id="将收获什么"><a href="#将收获什么" class="headerlink" title="将收获什么"></a>将收获什么</h4><ul>
+<li>脚手架的实现原理</li>
+<li>Lerna的常见用法</li>
+<li>架构设计技巧和架构图绘制方法</li>
+</ul>
+<h4 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h4><ul>
+<li>学习如何以架构师的角度思考基础架构问题</li>
+<li>多 Package 项目管理通点和解决方案，基于Lerna脚手架框架搭建</li>
+<li>imooc-cli脚手架需求分析和架构设计，架构设计图</li>
+</ul>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
+<li>脚手架调试技巧</li>
+<li>Lerna源码分析</li>
+<li>Node的module模块分析</li>
+<li>yargs使用方式</li>
+<li>剖析Lerna架构设计</li>
+</ul>
+<h4 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h4><ul>
+<li>脚手架 - 掌握脚手架原理和开发全流程</li>
+<li>Lerna - 解决多 Package 项目管理通电</li>
+<li>架构设计 - 学习大厂基础架构设计思路</li>
+</ul>
+<h3 id="站在前端研发视角，分析开发脚手架的必要性"><a href="#站在前端研发视角，分析开发脚手架的必要性" class="headerlink" title="站在前端研发视角，分析开发脚手架的必要性"></a>站在前端研发视角，分析开发脚手架的必要性</h3><h4 id="大厂研发架构图"><a href="#大厂研发架构图" class="headerlink" title="大厂研发架构图"></a>大厂研发架构图</h4><p><img src="https://s2.loli.net/2022/05/03/KBEndaRt5rHG31l.png" alt="大厂研发架构图"></p>
+<p><img src="https://s2.loli.net/2022/05/03/w8WZLJdjTIMfzP1.png" alt="脚手架核心价值"></p>
+<h3 id="从使用角度理解什么是脚手架？"><a href="#从使用角度理解什么是脚手架？" class="headerlink" title="从使用角度理解什么是脚手架？"></a>从使用角度理解什么是脚手架？</h3><p><img src="https://s2.loli.net/2022/05/03/1DC2k7BaKj8IVTG.png" alt="脚手架简介"></p>
+<p><img src="https://s2.loli.net/2022/05/03/LT8nXmrzgD6GZ2p.png" alt="步骤"></p>
+<p><img src="https://s2.loli.net/2022/05/03/EGnL9D6ZIpAPNvF.png" alt="执行原理"></p>
+<p><img src="https://s2.loli.net/2022/05/03/EQUGgFTVzepj2Dq.png" alt="从应用角度看问题"></p>
+<h3 id="脚手架的实现原理"><a href="#脚手架的实现原理" class="headerlink" title="脚手架的实现原理"></a>脚手架的实现原理</h3><p><img src="https://s2.loli.net/2022/05/03/OGvYf5iRDu68lcV.png" alt="脚手架的实现原理"></p>
+<p><img src="https://s2.loli.net/2022/05/03/dFw2qRzMur5npA1.png" alt="脚手架的实现原理2"></p>
+<p>vue 是软链接，指向的是一个js文件，在js文件中的顶部写了 <code>#!/usr/bin/env node</code> 就是使用环境变量中的 node 来执行这个文件，与<code>node vue.js</code> 一个意思</p>
+<h3 id="脚手架的开发流程"><a href="#脚手架的开发流程" class="headerlink" title="脚手架的开发流程"></a>脚手架的开发流程</h3><p><img src="../AppData/Roaming/Typora/typora-user-images/image-20220503100514951.png" alt="脚手架的开发流程"></p>
+<p><img src="https://s2.loli.net/2022/05/04/j46ShmGo8w5qZbA.png" alt="脚手架的开发流程2"></p>
+<p><img src="https://s2.loli.net/2022/05/04/UbSwZXDg5HGYpl7.png" alt="脚手架的开发流程3"></p>
+<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20220503100855278.png" alt="脚手架的开发流程4"></p>
+<h3 id="快速入门第一个脚手架"><a href="#快速入门第一个脚手架" class="headerlink" title="快速入门第一个脚手架"></a>快速入门第一个脚手架</h3><p><img src="https://s2.loli.net/2022/05/04/XAvg9dFhKDrPpYR.png" alt="入门第一个脚手架"></p>
+<h3 id="脚手架本地link标准流程"><a href="#脚手架本地link标准流程" class="headerlink" title="脚手架本地link标准流程"></a>脚手架本地link标准流程</h3><p><img src="https://s2.loli.net/2022/05/04/JYLgaDlRquwtEox.png" alt="脚手架本地link标准流程"></p>
+<p><img src="https://s2.loli.net/2022/05/04/BdYAfNhTgkanXSU.png" alt="脚手架本地link标准流程2"></p>
+<p><img src="../AppData/Roaming/Typora/typora-user-images/image-20220505165711791.png" alt="脚手架本地link标准流程2"></p>
+<h3 id="Lerna简介"><a href="#Lerna简介" class="headerlink" title="Lerna简介"></a>Lerna简介</h3><p>仓库地址：<a target="_blank" rel="noopener" href="https://github.com/lerna/lerna">https://github.com/lerna/lerna</a></p>
+<p>原生脚手架开发痛点分析</p>
+<ul>
+<li>痛点一：重复操作<ul>
+<li>多 Package 本地link</li>
+<li>多 Package 依赖安装</li>
+<li>多 Package 单元测试</li>
+<li>多 Package 代码提交</li>
+<li>多 Package 代码发布</li>
+</ul>
+</li>
+<li>痛点二：版本一致性<ul>
+<li>发布时版本一致性</li>
+<li>发布后相互依赖版本升级</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Package 越多。管理复杂度越高 </p>
+</blockquote>
+<h4 id="Lerna-简介"><a href="#Lerna-简介" class="headerlink" title="Lerna 简介"></a>Lerna 简介</h4><p>Lerna 是一个优化基于 git + npm 的多 package 项目的管理工具</p>
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><ul>
+<li>答复减少重复操作</li>
+<li>提升操作的标准化</li>
+</ul>
+<blockquote>
+<p>Lerna 是架构优化的产物，它解释了一个架构真理：项目复杂度提升后，就需要对项目进行架构优化。架构优化的主要目标往往都是以效能为核心</p>
+</blockquote>
+<h5 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h5><p>官网：<a target="_blank" rel="noopener" href="https://lerna.js.org/">https://lerna.js.org/</a></p>
+<h5 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h5><p>使用 Lerna 管理的大型项目</p>
+<ul>
+<li><p>babel：<a target="_blank" rel="noopener" href="https://github.com/babel/babel">https://github.com/babel/babel</a></p>
+</li>
+<li><p>create-react-app：<a target="_blank" rel="noopener" href="https://github.com/facebook/create-react-app">https://github.com/facebook/create-react-app</a></p>
+</li>
+<li><p>vue-cli：<a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-cli">https://github.com/vuejs/vue-cli</a></p>
+</li>
+</ul>
+<h5 id="脚手架项目初始化"><a href="#脚手架项目初始化" class="headerlink" title="脚手架项目初始化"></a>脚手架项目初始化</h5><p><img src="https://s2.loli.net/2022/05/05/fmHUVarzJwOCWo5.png" alt="脚手架项目初始化"></p>
+<p><img src="https://s2.loli.net/2022/05/05/XMUIl3POofxkcuG.png" alt="脚手架项目初始化2"></p>
+<h3 id="基于-Lerna-搭建脚手架框架"><a href="#基于-Lerna-搭建脚手架框架" class="headerlink" title="基于 Lerna 搭建脚手架框架"></a>基于 Lerna 搭建脚手架框架</h3><h3 id="Lerna-源码学习"><a href="#Lerna-源码学习" class="headerlink" title="Lerna 源码学习"></a>Lerna 源码学习</h3><p>本地依赖</p>
+<p><img src="https://s2.loli.net/2022/05/05/VQ8XZvmsJagI43e.png" alt="本地依赖"></p>
+</div></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>

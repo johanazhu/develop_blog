@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="azhubaby的技术博客"><title>图片懒加载的三种解决方法 | Azhubaby Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.1"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create','G-QLGQ1V2DVG','auto');ga('send','pageview');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + 'b735438e944e58cd4b0914986a8f821c';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 5.4.2"></head><body><header class="clearfix" id="header"><div class="container"><div class="col-group"><div class="site-name"><h1 class="hidden">图片懒加载的三种解决方法</h1><a id="logo" href="/.">Azhubaby Blog</a><p class="description">关于编程、个人成长以及思考</p></div><div> <nav class="clearfix" id="nav-menu"><a class="current" href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/tags/"><i class="fa undefined"> 标签</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a><a class="search-icon" href="javascript:void(0)"><i class="fa fa-search"></i></a></nav></div></div></div></header><div id="body"><div class="container"><div class="col-group"><div class="col-8" id="main"><div class="res-cons"><div class="post"><h1 class="post-title">图片懒加载的三种解决方法</h1><div class="post-meta">2022-01-22<span> | </span><span class="category"><a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--><a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><!--busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js--></span><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span><span> | </span><span>作者：</span><span class="author">帝王一怒扫千军</span></div><div class="post-content"><blockquote>
+<p>写作提高思考</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我想写一个系列，关于图片懒加载、React 渲染十万条数据、无限下拉方案文章，因为其三者有共性，都有使用了 与 DOM 相关的 offsetTop、innerHeight、getBoundingClientRect、IntersectionObserver 等，这些知识点如果单独放在一篇文章中，其价值点就是1，如果相互连接，价值点就是3。用好梅特卡夫定律，能让自己的效率提升不少</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>学习前端，三板斧，HTML、CSS、JavaScript。JavaScript 基础由 DOM、BOM、ECMAScript 组成，其中 ECMAScript 为规范语言，现在说的 ES6（ES2016~ES2022） 指的就是它，隔段时间就会发布，目前一年发布一次，以年份来说，现在是 ECMAScript 2022。BOM是什么，BOM是浏览器对象模型（Browser Object Model）。它有六大对象</p>
+<ul>
+<li>document： DOM（对 BOM 包含了DOM，但是 DOM 重要，其地位和 BOM 一样）</li>
+<li>event：事件对象</li>
+<li>history：浏览器的历史记录</li>
+<li>location：窗口的 url 地址栏信息</li>
+<li>screen：显示设备的信息</li>
+<li>navigator：浏览器的配置信息</li>
+</ul>
+<p>DOM我们也很了解，文本对象模型，指操作HTML（超级文本标识语言）的API。DOM 会将文档解析为一个由节点和对象（包含属性和方法的对象）组件的结构集合</p>
+<p>以前开发页面时，我们在 script 标签中，先获取节点（DOM Api），再操作 DOM ，所以以前是 《JavaScript 面向对象编程》，《JavaScript dom编程艺术》，但操作 DOM 的 API 太长，不易书写，JQuery 集大成，简化Api，统一了操作写法。如果展开，会有很多可以延伸，而我铺垫了这么多，就是想引出 document</p>
+<p>这次我们要讲的 offset、scroll、client 就是出自“ document 家”。先配两张图来看看这三个到底是什么</p>
+<p><img src="https://s2.loli.net/2022/01/24/Dc89ErVsSCqhmgT.png" alt="document"></p>
+<p><img src="https://s2.loli.net/2022/01/24/imWP2fknSu9dlRX.png" alt="document2"></p>
+<h3 id="client"><a href="#client" class="headerlink" title="client"></a>client</h3><p><strong>client 指元素本身的可视内容</strong>。不包括 overflow 被折叠部分，不包括滚动条、border，包括 padding</p>
+<p>有四属性：</p>
+<ul>
+<li>clientHeight：对象可见的高度</li>
+<li>clientWidth：对象可见宽度</li>
+<li>clientTop：元素距离顶部的厚度，一般为0，因为滚动条不会出现在顶部</li>
+<li>clientLeft：元素距离左侧的厚度，一般为0，因为滚动条不会出现在左侧</li>
+</ul>
+<h3 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h3><p><strong>offset 指偏移</strong>。包括这个元素在文档中占用的所有显示宽度，包括滚动条、padding、border，不包括 overflow 隐藏的部分</p>
+<p>有五属性：</p>
+<p>offsetHeight：该对象自身的绝对高度</p>
+<ul>
+<li>offsetHeight: = border-width * 2 + padding-top + height + padding-bottom</li>
+</ul>
+<p>offsetWidth：该对象自身的绝对宽度</p>
+<ul>
+<li>offsetWidth = border-width * 2 + padding-left + width + padding-right</li>
+</ul>
+<p>offsetParent：返回一个对象的引用，字面意思，相对父元素的偏移</p>
+<ul>
+<li>如果当前元素的父元素没有 CSS 定位（position为absolute/relative），offsetParent 为 body</li>
+<li>如果当前元素的父元素有 CSS 定位（position为absolute/relative），offsetParent 取父级中最近的元素</li>
+</ul>
+<p>offsetTop：相对版面或 offsetParent 属性指定父坐标的顶部距离</p>
+<ul>
+<li>offsetTop = offsetParent 的 padding-top + 中间元素的 offsetHeight + 当前元素的 margin-top</li>
+</ul>
+<p>offsetLeft：相对版面或 offsetParent 属性指定父坐标的左部距离</p>
+<ul>
+<li>offsetLeft = offsetParent 的 padding-left + 中间元素的 offsetWidth + 当前元素的 margin-left</li>
+</ul>
+<h3 id="Scroll"><a href="#Scroll" class="headerlink" title="Scroll"></a>Scroll</h3><p><strong>Scroll 指滚动</strong>。包括这个元素没有显示出来的实际宽度，包括 padding，不包括滚动条、border</p>
+<p>scrollHeight：获取对象的滚动高度，对象的实际高度</p>
+<p>scrollWidth：获取对象的滚动宽度</p>
+<p>scrollTop：当前元素与窗口最顶端的距离</p>
+<p>scrollLeft：当前元素与窗口最左端的距离</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>innerHeight 和 clientHeight 有什么区别</p>
+<p>准确来说，clientHeight 是针对 body，innerHeight 是 window 的</p>
+<p>document.body.clientHeight：网页可见区域高</p>
+<p>window.innerHeight：可视窗口高度，不包括浏览器顶部工具栏</p>
+<h2 id="监听图片高度实现懒加载"><a href="#监听图片高度实现懒加载" class="headerlink" title="监听图片高度实现懒加载"></a>监听图片高度实现懒加载</h2><p>通过图片的 offsetTop（偏移高度）和 window 的 innerHeight、scrollTop 判断图片是否位于可视区域</p>
+<p>即很多图片，先显示视窗中的图片，没看见的先不展示，加快页面加载速度。当你向下滚，当后续图片的 offsetTop（偏移高度） 小于 innerHeight（视窗高度） + scrollTop（滚动高度） 时，意味着此图片已经出现在视窗中，将真正图片替换loading</p>
+<p>关键代码在于</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">lazyload</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> seeHeight = <span class="variable language_">window</span>.<span class="property">innerHeight</span>;</span><br><span class="line">    <span class="keyword">let</span> scrollTop = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">scrollTop</span> || <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">scrollTop</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = n; i &lt; img.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (img[i].<span class="property">offsetTop</span> &lt; seeHeight + scrollTop) &#123; <span class="comment">// 对比图片的偏移高度和屏幕高度+滚动高度</span></span><br><span class="line">            <span class="keyword">if</span> (img[i].<span class="title function_">getAttribute</span>(<span class="string">&quot;src&quot;</span>) === <span class="string">&#x27;loading.gif&#x27;</span>) &#123;</span><br><span class="line">                img[i].<span class="property">src</span> = img[i].<span class="title function_">getAttribute</span>(<span class="string">&quot;data-src&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            n = i + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://s2.loli.net/2022/01/24/KCAfHM7D618dQth.gif" alt="监听图片高度实现懒加载"></p>
+<h2 id="Element-getBoundingClientRect"><a href="#Element-getBoundingClientRect" class="headerlink" title="Element.getBoundingClientRect"></a>Element.getBoundingClientRect</h2><blockquote>
+<p><strong>Element.getBoundingClientRect()</strong> 方法返回元素的大小及其相对于视口的位置</p>
+</blockquote>
+<p>getBoundingClientRect 返回值是一个 DOMRect 对象，这个对象是由该元素的 getClientRects() 方法返回的一组矩形的集合，即与该元素相关的 CSS 边框集合</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">domRect = element.<span class="title function_">getBoundingClientRect</span>();</span><br></pre></td></tr></table></figure>
+
+<p>返回坐标、宽高、在视口中的位置</p>
+<ul>
+<li>x </li>
+<li>y </li>
+<li>width </li>
+<li>height </li>
+<li>top</li>
+<li>right</li>
+<li>bottom</li>
+<li>left</li>
+</ul>
+<p><img src="https://s2.loli.net/2022/01/28/aAo5cjdKsgYeS1h.png" alt="rect"></p>
+<blockquote>
+<p>如果是标准盒子模型，元素的尺寸等于 <code>width/height</code> + <code>padding</code> + <code>border-width</code> 的总和。如果 <code>box-sizing:border-box</code> ，元素的尺寸等于 <code>width/height</code></p>
+</blockquote>
+<p>我们用这个 API 来获取每张图片的 top 值，如果 top 值小于可视区的高度就视为已经进入可视区，直接加载图片即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">lazyload</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> seeHeight = <span class="variable language_">document</span>.<span class="property">documentElement</span>.<span class="property">clientHeight</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = n; i &lt; img.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (img[i].<span class="title function_">getBoundingClientRect</span>().<span class="property">top</span> &lt; seeHeight) &#123;</span><br><span class="line">            <span class="keyword">if</span> (img[i].<span class="title function_">getAttribute</span>(<span class="string">&quot;src&quot;</span>) === <span class="string">&quot;loading.gif&quot;</span>) &#123;</span><br><span class="line">                img[i].<span class="property">src</span>= img[i].<span class="title function_">getAttribute</span>(<span class="string">&quot;data-src&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            n = i + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://s2.loli.net/2022/01/28/DQBxskS2oO3JZwH.gif" alt="getBoundingClientRect实现懒加载"></p>
+<h2 id="通过-IntersectionObserver-实现懒加载"><a href="#通过-IntersectionObserver-实现懒加载" class="headerlink" title="通过 IntersectionObserver 实现懒加载"></a>通过 IntersectionObserver 实现懒加载</h2><blockquote>
+<p>IntersectionObserver 接口（从属于 Intersection Observer API）提供了一种异步观察目标元素与其祖先元素或顶级文档视窗（viewport）交叉状态的方法。祖先元素与视窗（viewport）被称为根（root）</p>
+</blockquote>
+<p>IntersectionObserver 可以不用监听 scroll 事件，做到元素一可见便调用回调，在回调里面我们来判断元素是否可见</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title class_">IntersectionObserver</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> lazyImageObserver = <span class="keyword">new</span> <span class="title class_">IntersectionObserver</span>(<span class="function">(<span class="params">entries, observer</span>) =&gt;</span> &#123;</span><br><span class="line">        entries.<span class="title function_">forEach</span>(<span class="function">(<span class="params">entry, index</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> lazyImage = entry.<span class="property">target</span>;</span><br><span class="line">            <span class="comment">// 如果元素可见</span></span><br><span class="line">            <span class="keyword">if</span> (entry.<span class="property">intersectionRatio</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (lazyImage.<span class="title function_">getAttribute</span>(<span class="string">&quot;src&quot;</span>) === <span class="string">&#x27;loading.gif&#x27;</span>) &#123;</span><br><span class="line">                    lazyImage.<span class="property">src</span> = lazyImage.<span class="title function_">getAttribute</span>(<span class="string">&quot;data-src&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                lazyImageObserver.<span class="title function_">unobserve</span>(lazyImage)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; img.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        lazyImageObserver.<span class="title function_">observe</span>(img[i])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码表示，遍历所有的图片，对其进行观察原生是否可见，如果元素可见，就把真正图片替换loading</p>
+<p>IntersectionObserver  可以自动“观察”元素是否可见，其本质是目标元素与视窗产生一个交叉去，所以这个 API 叫做“交叉观察器”</p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> io = <span class="keyword">new</span> <span class="title class_">IntersectionObserver</span>(callback, option)</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中， <code>IntersectionObserver</code> 是浏览器原生提供的构造函数，接受两个参数：<code>callback</code> 是可见性变化时的回调函数，<code>option</code> 是配置对象（该参数可选）</p>
+<p>构造函数的返回值是一个观察器实例。实例的 <code>observe</code> 方法可以指定观察哪个 DOM 节点</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开始观察</span></span><br><span class="line">io.<span class="title function_">observe</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;example&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 停止观察</span></span><br><span class="line">io.<span class="title function_">unobserve</span>(element)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关闭观察器</span></span><br><span class="line">io.<span class="title function_">disconnect</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="callback-参数"><a href="#callback-参数" class="headerlink" title="callback 参数"></a>callback 参数</h3><p>目标元素的可见性变化时，就会调用观察器的回调函数 <code>callback</code></p>
+<p><code>callback</code> 一般会触发两次。一次时目标元素刚刚进入视窗（开始可见），另一次时完全离开视窗（开始不可见）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> io = <span class="keyword">new</span> <span class="title class_">IntersectionObserver</span>(</span><br><span class="line">    <span class="function"><span class="params">entries</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(entries)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，回调函数采用的是箭头函数的写法。<code>callback</code> 函数的参数（<code>entries</code>）是一个数组，每个成员都是一个 <code>IntersectionObserverEntry</code> 对象。举例来说，如果同时有两个被观察的对象的可见性发生变化，<code>entries</code>数组就会有两个成员。 </p>
+<h3 id="IntersectionObserverEntry-对象"><a href="#IntersectionObserverEntry-对象" class="headerlink" title="IntersectionObserverEntry 对象"></a>IntersectionObserverEntry 对象</h3><p><code>IntersectionObserverEntry</code> 对象提供目标元素的信息，一共有六个属性</p>
+<ul>
+<li>time: 可见性发生变化的时间，单位毫秒</li>
+<li>target：被观察的目标，是个 DOM 节点对象</li>
+<li>rootBounds：根元素的矩形区域的信息，getBoundingClientRect() 方法的返回值，如果没有根元素（即直接相对于视窗滚动），则返回null</li>
+<li>boundingClientRect：目标元素的矩形区域的信息</li>
+<li>intersectionRect：目标元素与视窗（或根元素）的交叉区域的信息</li>
+<li><strong>intersectionRatio</strong>：目标元素的可见比例，即 intersectionRect 占 boundingClientRect 的比例，完全可见时为1，完全不可见时小于等于 0  </li>
+</ul>
+<p>如图所示：</p>
+<p><img src="https://s2.loli.net/2022/01/25/Vl6kb437ZeuMR1g.png" alt="IntersectionObserverEntry参数"></p>
+<h3 id="兼容性如何"><a href="#兼容性如何" class="headerlink" title="兼容性如何"></a>兼容性如何</h3><p><a href="https://link.juejin.cn/?target=https://caniuse.com/%23search=IntersectionObserver">caniuse</a> 兼容性报告目前支持率是 93.67%，但是iOS的支持度要在 iOS12.2 以上，如果是iPhoneX（2018.11）之后的手机都是支持的，如果是之前的，升级系统才支持，考虑到一些人是不会升级，所以这个兼容性还不支持大众化的场景，但它的能力和性能都非常的好</p>
+<p><img src="https://s2.loli.net/2022/01/25/BIMkEZt6X4Tjhap.png" alt="image-20220125104012150"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><a href="https://blog.azhubaby.com/2021/08/17/2021-08-17-%E9%98%BF%E9%87%8C%E3%80%81%E5%BE%97%E7%89%A9%E3%80%81%E6%B6%82%E9%B8%A6%E3%80%81%E9%80%94%E8%99%8E%E9%9D%A2%E8%AF%95%E5%BF%83%E5%BE%97/#/">面试</a>的时候被问到懒加载，我那个时候没做过相关的准备，我说不知道，途虎的面试官会引导，其实引导才能测试出一个人真正的水平，但是那个时候我竟然连 scroll 都想不起来。现在回想起来，实在是准备的方向搞错了。</p>
+<p>说到图片懒加载，有两种方法：</p>
+<ul>
+<li>监听图片高度<ul>
+<li>技术要点：监听scroll，滚动的时候遍历所有的图片，如果图片的偏移高度小于屏幕高度+滑动高度，说明已经出现在视窗，就替换图片</li>
+<li>优点：兼容性好</li>
+<li>缺点：单纯使用 scroll 滑动来监听高度，会引发性能问题，所以要搭配节流</li>
+</ul>
+</li>
+<li>Element.getBoundingClientRect<ul>
+<li>技术要点：与监听图片无太大区别，无非视把图片的偏移高度改成 getBoundingClientRect().top，对比每张图片的自身高度是否出现在视窗（视口）中，有就替换图片</li>
+<li>优点：兼容性好，代码相对监听图片高度少了一些</li>
+<li>缺点：也是使用 scroll 滑动来监听，会引发性能问题</li>
+</ul>
+</li>
+<li>使用 IntersectionObserver Api<ul>
+<li>技术要点：通过 IntersectionObserver Api 来实现，图片元素一可见就调用回调，在回调中判断元素是否可见</li>
+<li>优点：写起来方便，性能好</li>
+<li>缺点：兼容性适配iOS12.2以上，安卓5以上</li>
+</ul>
+</li>
+</ul>
+<p>附上线上 demo：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://demo.azhubaby.com/%E6%87%92%E5%8A%A0%E8%BD%BD/index.html">scroll</a></li>
+<li><a target="_blank" rel="noopener" href="https://demo.azhubaby.com/%E6%87%92%E5%8A%A0%E8%BD%BD/getBoundingClientRect.html">getBoundingClientRect</a></li>
+<li><a target="_blank" rel="noopener" href="https://demo.azhubaby.com/%E6%87%92%E5%8A%A0%E8%BD%BD/observer.html">IntersectionObserver</a></li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000000654274">JavaScript学习总结（三）BOM和DOM详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015961743">JS 中的offset、scroll、client总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html#/">IntersectionObserver API 使用教程</a></li>
+</ul>
+</div><div class="tags"><a href="/tags/%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/"><i class="fa fa-tag"></i>图片懒加载</a></div><div class="post-nav"><a class="pre" href="/2022/01/25/2022-01-25-%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%9A%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB/">面试题：箭头函数和普通函数的区别</a><a class="next" href="/2022/01/16/2022-01-16-%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">部署实战记录</a></div><div id="container"></div><link rel="stylesheet" type="text/css" href="//unpkg.com/gitalk/dist/gitalk.css?v=1.0.1"><script type="text/javascript" src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js?v=1.0.1"></script><script type="text/javascript" src="//unpkg.com/gitalk/dist/gitalk.min.js?v=1.0.1"></script><script>var gitalk = new Gitalk({
+  clientID: 'ff0c33d53db26a5b1424',
+  clientSecret: 'd42b8e0556a1f4e20667e0a48c1adb9eca12d6ee',
+  repo: 'blog',
+  owner: 'johanazhu',
+  admin: ['johanazhu'],
+  id: md5(location.pathname),
+  distractionFreeMode: false
+})
+gitalk.render('container')
+</script></div></div></div><div id="secondary"><div class="widget"><div class="widget-title"><h3> 我的微信公众号</h3></div><div class="wechatwidget"><a href="#"><img src="https://s2.loli.net/2022/03/25/VqfD2ScLuKzjbR8.jpg"/></a><span>微信号：johanbo88</span></div></div><div class="widget"><div class="widget-title"><h3>最近文章</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/2023/03/07/2023-03-02-%E5%B0%9D%E8%AF%95%E7%94%A8WSL2+Ubuntu%E5%BC%80%E5%8F%91/">尝试用 WSL2 + Ubuntu 开发</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/02/13/2023-02-13-%E5%AE%89%E8%A3%85%20docker%20%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">安装 docker 后无法启动</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2023/01/09/2023-01-09-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1hash%E3%80%81history%E7%9A%84%E5%AE%9E%E7%8E%B0/">前端路由hash、history的实现</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/12/10/2022-12-10-%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%EF%BC%9Adev-container/">手把手提高开发体验：dev-container</a></li><li class="widget-list-item"><a class="widget-list-link" href="/2022/10/09/2022-10-09-%E4%BB%8E%E9%9D%A2%E8%AF%95%E9%A2%98%E5%88%B0%E6%8F%92%E4%BB%B6%E6%9C%BA%E5%88%B6%E7%9A%84%E5%B0%8F%E6%80%9D%E8%80%83/">从面试题到插件机制的小思考</a></li></ul></div><div class="widget"><div class="widget-title"><h3> 分类</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/categories/10X%E7%A8%8B%E5%BA%8F%E5%91%98/">10X程序员</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/HTTP/">HTTP</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a><span class="widget-list-count">35</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/CSS/">CSS</a><span class="widget-list-count">6</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/JavaScript/">JavaScript</a><span class="widget-list-count">9</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React/">React</a><span class="widget-list-count">12</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/umi/">umi</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91/">开发</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%BE%AE%E4%BF%A1/">微信</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/">实战</a><span class="widget-list-count">5</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E5%85%AC%E5%8F%B8%E9%A1%B9%E7%9B%AE/">公司项目</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%AE%9E%E6%88%98/%E7%8B%AC%E7%AB%8B%E9%A1%B9%E7%9B%AE/">独立项目</a><span class="widget-list-count">2</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BA%93/">库</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">开发体验</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/">有知有行</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%86%99%E4%BD%9C/">写作</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%88%86%E4%BA%AB/">分享</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%89%E7%9F%A5%E6%9C%89%E8%A1%8C/%E5%AD%A6%E4%B9%A0/">学习</a><span class="widget-list-count">3</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/">服务端开发</a><span class="widget-list-count">9</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Koa2/">Koa2</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/Node/">Node</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BC%80%E5%8F%91/%E9%83%A8%E7%BD%B2/">部署</a><span class="widget-list-count">4</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a><span class="widget-list-count">1</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%90%86%E8%B4%A2/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/">加密货币</a><span class="widget-list-count">1</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%A2%8E%E7%9A%AE%E6%89%AF%E6%B7%A1/">碎皮扯淡</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><span class="widget-list-count">8</span><ul class="widget-list-child"><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Git/">Git</a><span class="widget-list-count">3</span></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JavaScript/">JavaScript</a><span class="widget-list-count">5</span></li></ul></li><li class="widget-list-item"><a class="widget-list-link" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="widget-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><h3> 归档</h3></div><ul class="widget-list"><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/03/">2023年三月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/02/">2023年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2023/01/">2023年一月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/12/">2022年十二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/10/">2022年十月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/09/">2022年九月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/08/">2022年八月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/07/">2022年七月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/05/">2022年五月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/04/">2022年四月</a><span class="widget-list-count">4</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/03/">2022年三月</a><span class="widget-list-count">7</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/02/">2022年二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2022/01/">2022年一月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/12/">2021年十二月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/11/">2021年十一月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/10/">2021年十月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/09/">2021年九月</a><span class="widget-list-count">5</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/08/">2021年八月</a><span class="widget-list-count">8</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/05/">2021年五月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/04/">2021年四月</a><span class="widget-list-count">2</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2021/02/">2021年二月</a><span class="widget-list-count">1</span></li><li class="widget-list-item"><a class="widget-list-link" href="/archives/2020/11/">2020年十一月</a><span class="widget-list-count">3</span></li></ul></div><div class="widget"><div class="widget-title"><h3>友情链接</h3></div><ul></ul><a href="https://azhubaby.com/" title="个人网站" target="_blank">个人网站</a><ul></ul><a href="https://fe.azhubaby.com/" title="五年前端三年面试" target="_blank">五年前端三年面试</a></div></div></div></div></div><footer id="footer"><div class="container"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>© 2023 <span>本站总访问量：<span id="busuanzi_value_site_pv"></span>&nbsp;次</span>
+<span>总访客：<span id="busuanzi_value_site_uv"></span>人</span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo. &nbsp;</a>Theme by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></footer><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.1"><script type="text/javascript" src="/js/search.js?v=1.0.1"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'search-input', 'search-results');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.1"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.1"></script><div class="search-page"><div class="search-icon-close-container"><span class="search-icon-close"><i class="fa fa-chevron-down"></i></span></div><div class="search-main container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><form></form><input type="text" id="search-input" placeholder="searching..."><div class="mini-post-list" id="search-results"></div></div></div></div></div></body></html>
